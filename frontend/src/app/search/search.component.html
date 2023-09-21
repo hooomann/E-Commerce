@@ -1,0 +1,51 @@
+  <div class="container mt-5">
+    <h2 class="search-title">Search Products</h2>
+    <div class="card p-4">
+      <form (ngSubmit)="searchProducts()">
+        <!-- Form inputs -->
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" [(ngModel)]="name" name="name" id="name" class="form-control" placeholder="Lebron V">
+        </div>
+        <div class="form-group">
+          <label for="brand">Brand:</label>
+          <input type="text" [(ngModel)]="brand" name="brand" id="brand" class="form-control" placeholder="Nike">
+        </div>
+        <div class="form-group">
+          <label for="productCode">Product Code:</label>
+          <input type="text" [(ngModel)]="productCode" name="productCode" id="productCode" class="form-control"
+            placeholder="7785AMB">
+        </div>
+        <div class="form-group" *ngIf="isLoggedIn()">
+          <label for="maxPrice">Max Price:</label>
+          <input type="number" [(ngModel)]="maxPrice" name="maxPrice" id="maxPrice" class="form-control" placeholder="100">
+        </div>
+        <button type="submit" class="btn btn-primary m-2">Let's Go!</button>
+        <span class="text-danger mr-2">{{ errorMessage }}</span>
+      </form>
+
+      <div *ngIf="products.length === 0" class="no-products-message">
+        No such products found.
+      </div>
+    </div>
+
+    <!-- Display search results as cards -->
+    <div class="row mt-3 d-flex flex-wrap">
+      <div class="col-md-4" *ngFor="let product of products; let i = index;">
+        <div class="card mb-3">
+          <div class="card-inner">
+    
+            <img [src]="product.productImage" class="card-img-top" alt="Product Image">
+            <div class="card-front p-3">
+              <h5 class="card-title">{{ product.name }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">{{ product.brand }}</h6>
+              <p class="card-text">{{ product.productCode }}</p>
+              <h6 *ngIf="isLoggedIn()" class="card-text text-primary">Price: $ {{ product.price }}</h6>
+              <button *ngIf="isLoggedIn()" class="btn btn-primary btn-sm" (click)="viewProduct(product.id)">View Details</button>
+    
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
